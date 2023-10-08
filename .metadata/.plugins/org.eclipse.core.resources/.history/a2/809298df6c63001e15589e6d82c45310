@@ -1,0 +1,17 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+
+public class List extends JPanel{
+	private JLabel profilLabel;
+	private JComboBox proileSelecter;
+	private JPanel topPane;
+	public List() {
+		
+	}
+	public void initTopPane() {
+		
+		
+	}
+
+}

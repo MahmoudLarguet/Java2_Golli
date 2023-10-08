@@ -1,0 +1,51 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+public class MenuBar extends JMenuBar {
+	private JPanel welcome;
+	
+	public MenuBar() {
+		JMenu gestionMenu = new JMenu("Gestion");
+		JMenuItem gestionProfileItem = new JMenuItem("gestion profils");
+		JMenuItem gestionEmployerItem = new JMenuItem("gestion employes");
+		JMenuItem gestion_Emp_ProfileItem = new JMenuItem("employes/profil");
+		JMenuItem QuitItem = new JMenuItem("Quitter");
+		gestionMenu.add(gestionProfileItem);
+		gestionMenu.add(new JSeparator()); 
+		gestionMenu.add(gestionEmployerItem);
+		gestionMenu.add(new JSeparator()); 
+		gestionMenu.add(gestion_Emp_ProfileItem);
+		gestionMenu.add(new JSeparator()); 
+		gestionMenu.add(QuitItem);
+		
+		
+		
+		JMenu rechercherMenu = new JMenu("Rechercher"); 
+		JMenuItem cinItem = new JMenuItem("Cin Employe");
+		JMenuItem nomItem = new JMenuItem("Nom Employe");
+		rechercherMenu.add(cinItem);
+		rechercherMenu.add(new JSeparator()); 
+		rechercherMenu.add(nomItem);
+		
+		
+		welcome = new Welcome();
+		JMenu colorMenu = new JMenu("Couleur");
+		JMenuItem blueItem = new JMenuItem(new AbstractAction("Bleu") {
+		    public void actionPerformed(ActionEvent e) {
+		        welcome.setBackground(Color.red);
+		    }
+		});;
+		JMenuItem redItem = new JMenuItem("Rouge");
+		colorMenu.add(blueItem);
+		colorMenu.add(new JSeparator()); 
+		colorMenu.add(redItem);
+		
+		
+		
+		add(gestionMenu);
+		add(rechercherMenu);
+		add(colorMenu);
+		
+	}
+}

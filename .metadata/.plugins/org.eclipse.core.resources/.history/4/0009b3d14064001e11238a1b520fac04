@@ -1,0 +1,36 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+import view.MenuBar;
+
+public class MainFrame extends JFrame {
+	private MenuBar menuBar ;
+	private TabMenu tabs;
+	public MainFrame() {
+		super("Gestion Des Employes");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		ImageIcon pic = new ImageIcon("image/welcome.jpg");
+		setIconImage(pic.getImage());
+		initComponents();
+		
+		
+		
+	}
+	public void initComponents() {
+		menuBar = new MenuBar();
+		tabs = new TabMenu();
+		//Font f = new Font("Serif",Font.BOLD,25);
+		//setFont(f);
+		setSize(1300,700);
+		setJMenuBar(menuBar);
+		add(tabs);
+		System.out.println(menuBar.getColor());
+		
+	}
+	
+	public static void main(String[] args) {
+		JFrame myFrame = new MainFrame();
+		
+	}
+}

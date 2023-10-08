@@ -1,0 +1,27 @@
+package view;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+public class Connexion {
+	public static void main(String[] args) {
+        // JDBC URL for Windows Authentication
+        String jdbcUrl = "jdbc:sqlserver://DESKTOP-KDO45FD:1433;databaseName=gestionemploye;integratedSecurity=true;";
+
+        try {
+            // Load the SQL Server JDBC driver
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            // Connect to the database
+            Connection connection = DriverManager.getConnection(jdbcUrl);
+
+            // Perform database operations here...
+
+            // Close the connection when done
+            connection.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

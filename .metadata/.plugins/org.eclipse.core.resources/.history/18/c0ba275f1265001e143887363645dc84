@@ -1,0 +1,59 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import view.MenuBar;
+
+public class MainFrame extends JFrame implements ActionListener {
+	private MenuBar menuBar ;
+	private TabMenu tabs;
+	public MainFrame() {
+		super("Gestion Des Employes");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+		ImageIcon pic = new ImageIcon("image/welcome.jpg");
+		setIconImage(pic.getImage());
+		initComponents();
+		
+		
+		
+	}
+	public void initComponents() {
+		menuBar = new MenuBar();
+		tabs = new TabMenu();
+		//Font f = new Font("Serif",Font.BOLD,25);
+		//setFont(f);
+		setSize(1300,700);
+		setJMenuBar(menuBar);
+		add(tabs);
+		menuBar.getRedItem().addActionListener(this);
+		menuBar.getBlueItem().addActionListener(this);
+		
+	}
+	
+	public static void main(String[] args) {
+		JFrame myFrame = new MainFrame();
+		
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == menuBar.getRedItem()) {
+			tabs.getWelcome().setBackground(Color.red);
+			tabs.getGestionProfil().getLeftPanel().setBackground(Color.red);
+			tabs.getGestionProfil().getTopPanel().setBackground(Color.red);
+			tabs.getGestionEmpl().getTopPane().setBackground(Color.red);
+			tabs.getGestionEmpl().getBottomPane().setBackground(Color.red);
+			
+		}
+		else if(e.getSource() == menuBar.getBlueItem()) {
+			tabs.getWelcome().setBackground(Color.blue);
+			tabs.getGestionProfil().getLeftPanel().setBackground(Color.blue);
+			tabs.getGestionProfil().getTopPanel().setBackground(Color.blue);
+			tabs.getGestionEmpl().getTopPane().setBackground(Color.blue);
+			tabs.getGestionEmpl().getBottomPane().setBackground(Color.blue);
+		}
+		
+	}
+}

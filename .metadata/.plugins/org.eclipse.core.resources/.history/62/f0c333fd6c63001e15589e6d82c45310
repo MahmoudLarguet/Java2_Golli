@@ -1,0 +1,34 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+
+public class List extends JPanel{
+	private JLabel profilLabel;
+	private JComboBox profileSelector;
+	private JPanel topPane;
+	public List() {
+		super(new BorderLayout());
+		initTopPane();
+		add(topPane,"North");
+	}
+	public void initTopPane() {
+		topPane = new JPanel(new GridBagLayout());
+		profilLabel = new JLabel("Profil:");
+		profileSelector = new JComboBox<>();
+		topPane.setBackground(Color.blue);
+		
+		profilLabel.setFont(new Font("Arial",Font.PLAIN,20));
+		profilLabel.setForeground(Color.white);
+		GridBagConstraints g = new GridBagConstraints();
+		g.insets = new Insets(3,3,3,3);
+		g.gridx = 0;
+		g.gridy = 0;
+		topPane.add(profilLabel);
+		
+		
+		
+		
+		
+	}
+
+}
