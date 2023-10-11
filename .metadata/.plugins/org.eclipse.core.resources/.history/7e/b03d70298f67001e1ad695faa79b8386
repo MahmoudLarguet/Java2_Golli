@@ -1,0 +1,50 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+
+public class List extends JPanel{
+	private JLabel profilLabel;
+	private JComboBox profileSelector;
+	private String [] title = {"cin","nom","prenom","email"};
+	private String[][] data = {{"1112","mahmoud","Larguet","hello@gmail.com"},
+			{"test","test","test","hello@gmail.com"}};
+	private JTable tab;
+	private JPanel topPane,centerPane;
+	public List() {
+		super(new BorderLayout());
+		initTopPane();
+		initCenterPane();
+		add(topPane,"North");
+		
+	}
+	public void initCenterPane() {
+		centerPane = new JPanel();
+		MonModel m= new MonModel(data, title);
+		tab =new JTable(m);
+		add(tab);
+		
+	}
+	public void initTopPane() {
+		topPane = new JPanel(new GridBagLayout());
+		profilLabel = new JLabel("Profil:");
+		profileSelector = new JComboBox<>();
+		topPane.setBackground(Color.blue);
+		
+		profilLabel.setFont(new Font("Arial",Font.PLAIN,20));
+		profilLabel.setForeground(Color.white);
+		GridBagConstraints g = new GridBagConstraints();
+		g.insets = new Insets(3,3,3,3);
+		g.gridx = 0;
+		g.gridy = 0;
+		topPane.add(profilLabel,g);
+		g.gridx = 1;
+		g.gridy = 0;
+		topPane.add(profileSelector,g);
+		
+		
+		
+		
+		
+	}
+
+}

@@ -2,4 +2,8 @@
 <qualifiedTypeNameHistroy>
     <fullyQualifiedTypeName name="javax.swing.table.AbstractTableModel"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="model.EmployeDao"/>
+    <fullyQualifiedTypeName name="model.Profil"/>
+    <fullyQualifiedTypeName name="model.Employe"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

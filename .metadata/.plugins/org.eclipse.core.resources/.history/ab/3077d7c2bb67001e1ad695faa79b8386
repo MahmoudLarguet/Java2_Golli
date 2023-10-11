@@ -1,0 +1,42 @@
+package model;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+
+public class EmployeDao {
+	private Connection connection;
+	public EmployeDao() {
+		
+	}
+	public EmployeDao(Connection connection) {
+		this.connection = connection;
+	}
+	public int insertEmploye(Employe employe) {
+		try {
+			String insertSql = "INSERT INTO employe (cin,idprofil,nom,prenom,datnais,genre,email) values (?,?,?,?,?,?,?)";
+			 PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
+			 preparedStatement.setString(1, employe.getCin());
+			 preparedStatement.setInt(2, employe.getIdProfil());
+			 preparedStatement.setString(3, employe.getNom());
+			 preparedStatement.setString(4, employe.getPrenom());
+			 preparedStatement.setDate(5, employe.getDatnais());
+			 preparedStatement.setString(6, employe.getGenre());
+			 preparedStatement.setString(7, employe.getEmail());
+			 preparedStatement.execute();
+			 preparedStatement.close();
+			
+			
+		}
+		catch(Exception e) {
+			System.out.println(e);
+			return 0;
+		}
+		return 1;
+	}
+	
+	
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+}

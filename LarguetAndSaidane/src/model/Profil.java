@@ -6,6 +6,9 @@ public class Profil {
 	public Profil() {
 		
 	}
+	public Profil(String libelle) {
+		setLibelle(libelle);
+	}
 	public Profil(int idProfil, String libelle) {
 		setIdprofil(idProfil);
 		setLibelle(libelle);

@@ -1,0 +1,397 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+public class GestionEmp extends JPanel {
+	private JPanel topPane,centerPane,bottomPane;
+	private JTextField cinfield, nom,prenom,email;
+	private JFormattedTextField date;
+	private ArrayList<String> profiles;
+	private JLabel ncin,noml,datel,emaill,genrel,prenoml,profill;
+	private JTextField cinfieldc,nomc,prenomc,emailc;
+	private JFormattedTextField datec;
+	private JComboBox genderc,profilec;
+	private JButton next, previous, modif, suprimer,ajouter, annuler;
+	private JComboBox gender, profile;
+	
+	
+	
+	public GestionEmp() {
+		setLayout(new BorderLayout());
+		initTopPane();
+		initBottomPane();
+		initCenterPane();
+		add(topPane,"North");
+		add(bottomPane,"South");
+		add(centerPane,"Center");
+		
+	}
+	public void initTopPane() {
+		topPane = new JPanel(new GridBagLayout());
+		
+		topPane.setBackground(Color.blue);
+		GridBagConstraints g = new GridBagConstraints();
+		cinfield = new JTextField();
+		nom = new JTextField();
+		prenom = new JTextField();
+		date = new JFormattedTextField();
+		email = new JTextField();
+		String[] genderItems = {"Masculin","Feminin"};
+		gender = new JComboBox<>(genderItems);
+		profile = new JComboBox<>(profiles.toArray(new String[0]));
+		next = new JButton(">");
+		previous = new JButton("<");
+		modif = new JButton("modifier");
+		suprimer = new JButton("supprimer");
+		cinfield.setPreferredSize(new Dimension(100,20));
+		prenom.setPreferredSize(new Dimension(100,20));
+		nom.setPreferredSize(new Dimension(100,20));
+		date.setPreferredSize(new Dimension(100,20));
+		email.setPreferredSize(new Dimension(100,20));
+		g.insets = new Insets(10,10,10,10);
+		
+		g.gridx = 0;
+		g.gridy = 0;
+		topPane.add(cinfield,g);
+		
+		g.gridx = 1;
+		g.gridy = 0;
+		topPane.add(profile,g);
+		
+		g.gridx = 2;
+		g.gridy = 0;
+		topPane.add(prenom,g);
+		
+		g.gridx = 3;
+		g.gridy = 0;
+		topPane.add(nom,g);
+		
+		g.gridx = 4;
+		g.gridy = 0;
+		topPane.add(date,g);
+		
+		
+		g.gridx = 5;
+		g.gridy = 0;
+		topPane.add(gender,g);
+		
+		g.gridx = 6;
+		g.gridy = 0;
+		topPane.add(email,g);
+		
+		g.gridx = 1;
+		g.gridy = 1;
+		topPane.add(previous,g);
+		
+		g.gridx = 2;
+		g.gridy = 1;
+		topPane.add(next,g);
+		
+		g.gridx = 4;
+		g.gridy = 1;
+		topPane.add(modif,g);
+		
+		g.gridx = 5;
+		g.gridy = 1;
+		topPane.add(suprimer,g);
+		
+		
+		
+	}
+	public void initBottomPane() {
+
+		bottomPane = new JPanel(new FlowLayout());
+		ajouter = new JButton("Ajouter");
+		annuler = new JButton("annuler");
+		bottomPane.setBackground(Color.blue);
+		bottomPane.add(ajouter);
+		bottomPane.add(annuler);
+		
+		
+	}
+	public void initCenterPane() {
+		SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd");
+		centerPane = new JPanel(new GridBagLayout());
+		GridBagConstraints g = new GridBagConstraints();
+		g.insets = new Insets(10,10,10,10);
+		ncin = new JLabel("N° CIN");
+		noml = new JLabel("Nom");
+		datel= new JLabel("Date de naissance");
+		emaill= new JLabel("Email");
+		genrel= new JLabel("Genre");
+		prenoml= new JLabel("Prenom");
+		profill= new JLabel("Profil");
+		cinfieldc = new JTextField();
+		nomc= new JTextField();
+		prenomc= new JTextField();
+		//SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd");
+		datec= new JFormattedTextField(f.format(new Date()));
+		emailc= new JTextField();
+		cinfieldc.setPreferredSize(new Dimension(200,20));
+		nomc.setPreferredSize(new Dimension(200,20));
+		prenomc.setPreferredSize(new Dimension(200,20));
+		datec.setPreferredSize(new Dimension(200,20));
+		emailc.setPreferredSize(new Dimension(200,20));
+		
+		profilec = new JComboBox<>(profiles.toArray(new String[0]));
+		String[] genderItems = {"Masculin","Feminin"};
+		genderc = new JComboBox<>(genderItems);
+		g.gridx = 0;
+		g.gridy = 0;
+		centerPane.add(ncin,g);
+		
+		
+		g.gridx = 0;
+		g.gridy = 1;
+		centerPane.add(noml,g);
+		
+		
+		g.gridx = 0;
+		g.gridy = 2;
+		centerPane.add(datel,g);
+		
+		
+		g.gridx = 0;
+		g.gridy = 3;
+		centerPane.add(emaill,g);
+		
+		
+		g.gridx = 1;
+		g.gridy = 0;
+		centerPane.add(cinfieldc,g);
+		
+		
+		g.gridx = 1;
+		g.gridy = 1;
+		centerPane.add(nomc,g);
+		
+		
+		g.gridx = 1;
+		g.gridy = 2;
+		centerPane.add(datec,g);
+		
+		
+		g.gridx = 1;
+		g.gridy = 3;
+		centerPane.add(emailc,g);
+		
+		
+		g.gridx = 2;
+		g.gridy = 0;
+		centerPane.add(genrel,g);
+		
+		g.gridx = 2;
+		g.gridy = 1;
+		centerPane.add(prenoml,g);
+		
+		g.gridx = 2;
+		g.gridy = 2;
+		centerPane.add(profill,g);
+		
+		
+		g.gridx = 3;
+		g.gridy = 0;
+		centerPane.add(genderc,g);
+		
+		g.gridx = 3;
+		g.gridy = 1;
+		centerPane.add(prenomc,g);
+		
+		g.gridx = 3;
+		g.gridy = 2;
+		centerPane.add(profilec,g);
+		
+		
+		
+		
+	}
+	public JPanel getTopPane() {
+		return topPane;
+	}
+	public void setTopPane(JPanel topPane) {
+		this.topPane = topPane;
+	}
+	public JPanel getCenterPane() {
+		return centerPane;
+	}
+	public void setCenterPane(JPanel centerPane) {
+		this.centerPane = centerPane;
+	}
+	public JPanel getBottomPane() {
+		return bottomPane;
+	}
+	public void setBottomPane(JPanel bottomPane) {
+		this.bottomPane = bottomPane;
+	}
+	public JTextField getCinfield() {
+		return cinfield;
+	}
+	public void setCinfield(JTextField cinfield) {
+		this.cinfield = cinfield;
+	}
+	public JTextField getNom() {
+		return nom;
+	}
+	public void setNom(JTextField nom) {
+		this.nom = nom;
+	}
+	public JTextField getPrenom() {
+		return prenom;
+	}
+	public void setPrenom(JTextField prenom) {
+		this.prenom = prenom;
+	}
+	public JTextField getEmail() {
+		return email;
+	}
+	public void setEmail(JTextField email) {
+		this.email = email;
+	}
+	public JFormattedTextField getDate() {
+		return date;
+	}
+	public void setDate(JFormattedTextField date) {
+		this.date = date;
+	}
+	public JLabel getNcin() {
+		return ncin;
+	}
+	
+	public ArrayList<String> getProfiles() {
+		return profiles;
+	}
+	public void setProfiles(ArrayList<String> profiles) {
+		this.profiles = profiles;
+	}
+	public void setNcin(JLabel ncin) {
+		this.ncin = ncin;
+	}
+	public JLabel getNoml() {
+		return noml;
+	}
+	public void setNoml(JLabel noml) {
+		this.noml = noml;
+	}
+	public JLabel getDatel() {
+		return datel;
+	}
+	public void setDatel(JLabel datel) {
+		this.datel = datel;
+	}
+	public JLabel getEmaill() {
+		return emaill;
+	}
+	public void setEmaill(JLabel emaill) {
+		this.emaill = emaill;
+	}
+	public JLabel getGenrel() {
+		return genrel;
+	}
+	public void setGenrel(JLabel genrel) {
+		this.genrel = genrel;
+	}
+	public JLabel getPrenoml() {
+		return prenoml;
+	}
+	public void setPrenoml(JLabel prenoml) {
+		this.prenoml = prenoml;
+	}
+	public JLabel getProfill() {
+		return profill;
+	}
+	public void setProfill(JLabel profill) {
+		this.profill = profill;
+	}
+	public JTextField getCinfieldc() {
+		return cinfieldc;
+	}
+	public void setCinfieldc(JTextField cinfieldc) {
+		this.cinfieldc = cinfieldc;
+	}
+	public JTextField getNomc() {
+		return nomc;
+	}
+	public void setNomc(JTextField nomc) {
+		this.nomc = nomc;
+	}
+	public JTextField getPrenomc() {
+		return prenomc;
+	}
+	public void setPrenomc(JTextField prenomc) {
+		this.prenomc = prenomc;
+	}
+	public JTextField getEmailc() {
+		return emailc;
+	}
+	public void setEmailc(JTextField emailc) {
+		this.emailc = emailc;
+	}
+	public JFormattedTextField getDatec() {
+		return datec;
+	}
+	public void setDatec(JFormattedTextField datec) {
+		this.datec = datec;
+	}
+	public JComboBox getGenderc() {
+		return genderc;
+	}
+	public void setGenderc(JComboBox genderc) {
+		this.genderc = genderc;
+	}
+	public JComboBox getProfilec() {
+		return profilec;
+	}
+	public void setProfilec(JComboBox profilec) {
+		this.profilec = profilec;
+	}
+	public JButton getNext() {
+		return next;
+	}
+	public void setNext(JButton next) {
+		this.next = next;
+	}
+	public JButton getPrevious() {
+		return previous;
+	}
+	public void setPrevious(JButton previous) {
+		this.previous = previous;
+	}
+	public JButton getModif() {
+		return modif;
+	}
+	public void setModif(JButton modif) {
+		this.modif = modif;
+	}
+	public JButton getSuprimer() {
+		return suprimer;
+	}
+	public void setSuprimer(JButton suprimer) {
+		this.suprimer = suprimer;
+	}
+	public JButton getAjouter() {
+		return ajouter;
+	}
+	public void setAjouter(JButton ajouter) {
+		this.ajouter = ajouter;
+	}
+	public JButton getAnnuler() {
+		return annuler;
+	}
+	public void setAnnuler(JButton annuler) {
+		this.annuler = annuler;
+	}
+	public JComboBox getGender() {
+		return gender;
+	}
+	public void setGender(JComboBox gender) {
+		this.gender = gender;
+	}
+	public JComboBox getProfile() {
+		return profile;
+	}
+	public void setProfile(JComboBox profile) {
+		this.profile = profile;
+	}
+}

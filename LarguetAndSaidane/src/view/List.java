@@ -1,6 +1,7 @@
 package view;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class List extends JPanel{
 	private JLabel profilLabel;
@@ -43,6 +44,16 @@ public class List extends JPanel{
 		
 		
 		
+		
+		
+	}
+	public void setProfileSelection(ArrayList<String> profiles) {
+		profileSelector.removeAllItems();
+		
+		for(String profile:profiles) {
+			profileSelector.addItem(profile);
+			
+		}
 		
 		
 	}

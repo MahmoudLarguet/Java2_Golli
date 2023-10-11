@@ -1,0 +1,35 @@
+package model;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.sql.Statement;
+public class ProfilDao {
+	private Connection connection;
+	public ArrayList<String> select_profiles() {
+		ArrayList<String> profiles =new ArrayList<String>();
+		try {
+			String sqlQuery = "SELECT * FROM profil";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+			    // Retrieve data from columns
+			    String profile = resultSet.getString("libelle");
+			    profiles.add(profile);
+
+			
+			}
+		}
+		catch(Exception e) {
+			
+		}
+		return profiles;
+	}
+	public Connection getConnection() {
+		return connection;
+	}
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+	
+}

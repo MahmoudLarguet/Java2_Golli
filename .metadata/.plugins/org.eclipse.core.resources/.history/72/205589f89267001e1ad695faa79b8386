@@ -1,0 +1,19 @@
+package model;
+
+import java.sql.Connection;
+
+public class EmployeDao {
+	private Connection connection;
+	public EmployeDao() {
+		
+	}
+	public EmployeDao(Connection connection) {
+		this.connection = connection;
+	}
+	
+	
+	
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
+}

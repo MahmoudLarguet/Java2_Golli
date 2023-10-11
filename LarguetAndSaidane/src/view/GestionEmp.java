@@ -2,12 +2,13 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 public class GestionEmp extends JPanel {
 	private JPanel topPane,centerPane,bottomPane;
 	private JTextField cinfield, nom,prenom,email;
 	private JFormattedTextField date;
-	
+	private ArrayList<String> profiles = new ArrayList<String>();
 	private JLabel ncin,noml,datel,emaill,genrel,prenoml,profill;
 	private JTextField cinfieldc,nomc,prenomc,emailc;
 	private JFormattedTextField datec;
@@ -39,7 +40,7 @@ public class GestionEmp extends JPanel {
 		email = new JTextField();
 		String[] genderItems = {"Masculin","Feminin"};
 		gender = new JComboBox<>(genderItems);
-		profile = new JComboBox<>();
+		profile = new JComboBox<>(profiles.toArray());
 		next = new JButton(">");
 		previous = new JButton("<");
 		modif = new JButton("modifier");
@@ -257,6 +258,13 @@ public class GestionEmp extends JPanel {
 	public JLabel getNcin() {
 		return ncin;
 	}
+	
+	public ArrayList<String> getProfiles() {
+		return profiles;
+	}
+	public void setProfiles(ArrayList<String> profiles) {
+		this.profiles = profiles;
+	}
 	public void setNcin(JLabel ncin) {
 		this.ncin = ncin;
 	}
@@ -334,6 +342,16 @@ public class GestionEmp extends JPanel {
 	}
 	public JComboBox getProfilec() {
 		return profilec;
+	}
+	public void setProfileSelection(ArrayList<String> profiles) {
+		profilec.removeAllItems();
+		profile.removeAllItems();
+		for(String profile:profiles) {
+			profilec.addItem(profile);
+			this.profile.addItem(profile);
+		}
+		
+		
 	}
 	public void setProfilec(JComboBox profilec) {
 		this.profilec = profilec;
