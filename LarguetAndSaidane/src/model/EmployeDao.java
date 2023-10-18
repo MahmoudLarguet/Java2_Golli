@@ -32,7 +32,7 @@ public class EmployeDao {
 			
 		}
 		catch(Exception e) {
-			System.out.println(e);
+			
 			return 0;
 		}
 		return 1;
@@ -51,14 +51,54 @@ public class EmployeDao {
 			 preparedStatement.setString(6, employe.getEmail());
 			 preparedStatement.execute();
 			 preparedStatement.close();
-			
-			
+			 
+			 
 		}
 		catch(Exception e) {
-			System.out.println(e);
+			
 			return 0;
 		}
 		return 1;
+	}
+	public int searchEmployeByName(String nom) {
+		int result = 0;
+		try {
+			String sqlQuery = "SELECT * FROM employe where nom = ?";
+			Statement statement = connection.createStatement();
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+			 preparedStatement.setString(1, nom);
+			 ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+			    // Retrieve data from columns
+			    result = 1;
+
+			
+			}
+		}
+		catch(Exception e) {
+			
+		}
+		return result;
+	}
+	public int searchEmployeByCin(String nom) {
+		int result = 0;
+		try {
+			String sqlQuery = "SELECT * FROM employe where cin = ?";
+			Statement statement = connection.createStatement();
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+			 preparedStatement.setString(1, nom);
+			 ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+			    // Retrieve data from columns
+			    result = 1;
+
+			
+			}
+		}
+		catch(Exception e) {
+			
+		}
+		return result;
 	}
 	public int deleteEmploye(Employe employe) {
 		try {
@@ -88,7 +128,7 @@ public class EmployeDao {
 			    String cin = resultSet.getString("cin");
 			    int idprofil = resultSet.getInt("idprofil");
 			    String nom = resultSet.getString("nom");
-			    String prenom = resultSet.getString("nom");
+			    String prenom = resultSet.getString("prenom");
 			    Date datnais = resultSet.getDate("datnais");
 			    String genre = resultSet.getString("genre");
 			    String email = resultSet.getString("email");
@@ -104,6 +144,37 @@ public class EmployeDao {
 		}
 		
 		return employes;
+	}
+	public ArrayList<Employe> selectEmployesByProfile(int id){
+		ArrayList<Employe> employes = new ArrayList<Employe>();
+		try {
+			
+			String sqlQuery = "SELECT * FROM employe where idprofil = ?";
+			Statement statement = connection.createStatement();
+			PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+			 preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+			    // Retrieve data from columns
+			    String cin = resultSet.getString("cin");
+			    int idprofil = resultSet.getInt("idprofil");
+			    String nom = resultSet.getString("nom");
+			    String prenom = resultSet.getString("prenom");
+			    Date datnais = resultSet.getDate("datnais");
+			    String genre = resultSet.getString("genre");
+			    String email = resultSet.getString("email");
+			    
+			    
+			    employes.add(new Employe(cin,idprofil,nom,prenom,datnais,genre,email));
+	
+			
+			}
+		}
+		catch(Exception e) {
+		
+		}
+		return employes;
+		
 	}
 	
 	public void setConnection(Connection connection) {

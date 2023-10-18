@@ -1,0 +1,75 @@
+package view;
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
+public class List extends JSplitPane{
+	private JLabel profilLabel;
+	private JComboBox profileSelector;
+	private String[] title = {"cin","nom","prenom","email"};
+	private String[][] data = {{"1112","mahmoud","Larguet","hello@gmail.com"},
+			{"test","test","test","hello@gmail.com"}};
+	private JTable tab;
+	private DefaultTableModel model;
+	private JPanel topPane,bottomPane;
+	public List() {
+		super(JSplitPane.VERTICAL_SPLIT);
+		initTopPane();
+		initBottomPane();
+		setTopComponent(topPane);
+		setBottomComponent(bottomPane);
+		
+	}
+	public void initBottomPane() {
+		bottomPane = new JPanel(new BorderLayout());
+		model = new DefaultTableModel();
+		tab =new JTable(model);
+		for(String column: title) {
+			model.addColumn(column);
+			System.out.println(column);
+		}
+		for(String[] row :data) {
+			model.addRow(row);
+			
+		}
+		JScrollPane scrollPane = new JScrollPane(tab);
+		
+		bottomPane.add(scrollPane);
+		
+		
+	}
+	public void initTopPane() {
+		topPane = new JPanel(new GridBagLayout());
+		profilLabel = new JLabel("Profil:");
+		profileSelector = new JComboBox<>();
+		topPane.setBackground(Color.blue);
+		
+		profilLabel.setFont(new Font("Arial",Font.PLAIN,20));
+		profilLabel.setForeground(Color.white);
+		GridBagConstraints g = new GridBagConstraints();
+		g.insets = new Insets(3,3,3,3);
+		g.gridx = 0;
+		g.gridy = 0;
+		topPane.add(profilLabel,g);
+		g.gridx = 1;
+		g.gridy = 0;
+		topPane.add(profileSelector,g);
+		
+		
+		
+		
+		
+	}
+	public void setProfileSelection(ArrayList<String> profiles) {
+		profileSelector.removeAllItems();
+		
+		for(String profile:profiles) {
+			profileSelector.addItem(profile);
+			
+		}
+		
+		
+	}
+
+}

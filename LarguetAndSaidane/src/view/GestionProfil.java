@@ -1,16 +1,29 @@
 package view;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
+import model.Employe;
+import model.Profil;
+
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GestionProfil extends JSplitPane{
-	JPanel leftPanel,rightPanel,topPanel;
-	JButton ajouter,annuler;
-	JTextField libelleField;
-	JLabel libelleLabel;
+	private JPanel leftPanel,rightPanel,topPanel;
+	private JButton ajouter,annuler;
+	private JTextField libelleField;
+	private DefaultTableModel model;
+	private JTable tab;
+	private String[] title = {"id","Libelle"};
+	
+	private JScrollPane scrollPane;
+	private JLabel libelleLabel;
+	
 	public GestionProfil() {
 		super(JSplitPane.HORIZONTAL_SPLIT);
 		initLeftPanel();
-		rightPanel = new JPanel();
+		initRightPanel();
+		
 		setDividerLocation(600);
 		setLeftComponent(leftPanel);
 		setRightComponent(rightPanel);
@@ -48,6 +61,32 @@ public class GestionProfil extends JSplitPane{
 	}
 	
 
+	public void initRightPanel() {
+		rightPanel = new JPanel(new BorderLayout());
+		model = new DefaultTableModel();
+		tab =new JTable(model);
+		
+		for(String column: title) {
+			model.addColumn(column);
+			
+		}
+		
+		scrollPane = new JScrollPane(tab);
+		
+		rightPanel.add(scrollPane);
+	}
+	public void getData(ArrayList<Profil> profils) {
+		for(Profil profil  : profils) {
+			String[] row = {Integer.toString(profil.getIdprofil()),profil.getLibelle()};
+			model.addRow(row);
+			
+		}
+	}
+	public void deleteAllRow() {
+		while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+	}
 	public JPanel getTopPanel() {
 		return topPanel;
 	}

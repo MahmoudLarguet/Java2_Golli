@@ -16,7 +16,7 @@ public class ProfilDao {
 	public ArrayList<String> select_profiles() {
 		ArrayList<String> profiles =new ArrayList<String>();
 		try {
-			String sqlQuery = "SELECT * FROM profil";
+			String sqlQuery = "SELECT * FROM profil order by idprofil";
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sqlQuery);
 			while (resultSet.next()) {
@@ -30,24 +30,49 @@ public class ProfilDao {
 		catch(Exception e) {
 			
 		}
-		System.out.print(profiles);
+	
+		return profiles;
+	}
+	public ArrayList<Profil> selectOrderedProfiles() {
+		ArrayList<Profil> profiles =new ArrayList<Profil>();
+		try {
+			String sqlQuery = "SELECT * FROM profil order by idprofil";
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			while (resultSet.next()) {
+			    // Retrieve data from columns
+			    String libb = resultSet.getString("libelle");
+			    int idlib = resultSet.getInt("idprofil");
+			    profiles.add(new Profil(idlib,libb));
+
+			
+			}
+		}
+		catch(Exception e) {
+			
+		}
+		
 		return profiles;
 	}
 	public int insertProfil(Profil profile) {
-		try {
-			String insertSql = "INSERT INTO PROFIL (libelle) values (?)";
-			 PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
-			 preparedStatement.setString(1, profile.getLibelle());
-			 preparedStatement.execute();
-			 preparedStatement.close();
-			
-			
+		if(getLibelleId(profile.getLibelle())==0) {
+			try {
+				String insertSql = "INSERT INTO PROFIL (libelle) values (?)";
+				 PreparedStatement preparedStatement = connection.prepareStatement(insertSql);
+				 preparedStatement.setString(1, profile.getLibelle());
+				 preparedStatement.execute();
+				 preparedStatement.close();
+				
+				
+			}
+			catch(Exception e) {
+				
+				return 0;
+			}
+			return 1;
 		}
-		catch(Exception e) {
-			System.out.println(e);
-			return 0;
-		}
-		return 1;
+		return 0;
+		
 	}
 	public int getLibelleId(String libelle) {
 		int idprofil = 0;

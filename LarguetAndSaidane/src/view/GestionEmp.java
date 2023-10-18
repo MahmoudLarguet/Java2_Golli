@@ -34,6 +34,7 @@ public class GestionEmp extends JPanel {
 		topPane.setBackground(Color.blue);
 		GridBagConstraints g = new GridBagConstraints();
 		cinfield = new JTextField();
+		cinfield.setEnabled(false);
 		nom = new JTextField();
 		prenom = new JTextField();
 		date = new JFormattedTextField();
@@ -45,11 +46,11 @@ public class GestionEmp extends JPanel {
 		previous = new JButton("<");
 		modif = new JButton("modifier");
 		suprimer = new JButton("supprimer");
-		cinfield.setPreferredSize(new Dimension(100,20));
-		prenom.setPreferredSize(new Dimension(100,20));
-		nom.setPreferredSize(new Dimension(100,20));
-		date.setPreferredSize(new Dimension(100,20));
-		email.setPreferredSize(new Dimension(100,20));
+		cinfield.setPreferredSize(new Dimension(200,20));
+		prenom.setPreferredSize(new Dimension(200,20));
+		nom.setPreferredSize(new Dimension(200,20));
+		date.setPreferredSize(new Dimension(200,20));
+		email.setPreferredSize(new Dimension(200,20));
 		g.insets = new Insets(10,10,10,10);
 		
 		g.gridx = 0;
@@ -126,8 +127,8 @@ public class GestionEmp extends JPanel {
 		cinfieldc = new JTextField();
 		nomc= new JTextField();
 		prenomc= new JTextField();
-		//SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd");
-		datec= new JFormattedTextField(f.format(new Date()));
+		SimpleDateFormat ff= new SimpleDateFormat("yyyy-MM-dd");
+		datec= new JFormattedTextField(ff.format(new Date()));
 		emailc= new JTextField();
 		cinfieldc.setPreferredSize(new Dimension(200,20));
 		nomc.setPreferredSize(new Dimension(200,20));

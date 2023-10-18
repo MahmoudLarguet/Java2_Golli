@@ -2,27 +2,40 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
-public class List extends JPanel{
+import model.Employe;
+
+public class List extends JSplitPane{
 	private JLabel profilLabel;
 	private JComboBox profileSelector;
-	private String [] title = {"cin","nom","prenom","email"};
-	private String[][] data = {{"1112","mahmoud","Larguet","hello@gmail.com"},
-			{"test","test","test","hello@gmail.com"}};
+	private String[] title = {"cin","nom","prenom","email"};
 	private JTable tab;
-	private JPanel topPane,centerPane;
+	private JScrollPane scrollPane;
+	private DefaultTableModel model;
+	private JPanel topPane,bottomPane;
 	public List() {
-		super(new BorderLayout());
+		super(JSplitPane.VERTICAL_SPLIT);
 		initTopPane();
-		initCenterPane();
-		add(topPane,"North");
+		initBottomPane();
+		setTopComponent(topPane);
+		setBottomComponent(bottomPane);
 		
 	}
-	public void initCenterPane() {
-		centerPane = new JPanel();
-		MonModel m= new MonModel(data, title);
-		tab =new JTable(m);
-		add(tab);
+	public void initBottomPane() {
+		bottomPane = new JPanel(new BorderLayout());
+		model = new DefaultTableModel();
+		tab =new JTable(model);
+	
+		for(String column: title) {
+			model.addColumn(column);
+			
+		}
+		
+		scrollPane = new JScrollPane(tab);
+		
+		bottomPane.add(scrollPane);
+		
 		
 	}
 	public void initTopPane() {
@@ -57,5 +70,66 @@ public class List extends JPanel{
 		
 		
 	}
+	public void getData(ArrayList<Employe> employes) {
+		for(Employe employe  : employes) {
+			String[] row = {employe.getCin(),employe.getNom(),employe.getPrenom(),employe.getEmail()};
+			model.addRow(row);
+			
+		}
+	}
+	public void deleteAllRow() {
+		while (model.getRowCount() > 0) {
+            model.removeRow(0);
+        }
+	}
+	public JLabel getProfilLabel() {
+		return profilLabel;
+	}
+	public void setProfilLabel(JLabel profilLabel) {
+		this.profilLabel = profilLabel;
+	}
+	public JComboBox getProfileSelector() {
+		return profileSelector;
+	}
+	public void setProfileSelector(JComboBox profileSelector) {
+		this.profileSelector = profileSelector;
+	}
+	public String[] getTitle() {
+		return title;
+	}
+	public void setTitle(String[] title) {
+		this.title = title;
+	}
+	public JTable getTab() {
+		return tab;
+	}
+	public void setTab(JTable tab) {
+		this.tab = tab;
+	}
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
+	}
+	public DefaultTableModel getModel() {
+		return model;
+	}
+	public void setModel(DefaultTableModel model) {
+		this.model = model;
+	}
+	public JPanel getTopPane() {
+		return topPane;
+	}
+	public void setTopPane(JPanel topPane) {
+		this.topPane = topPane;
+	}
+	public JPanel getBottomPane() {
+		return bottomPane;
+	}
+	public void setBottomPane(JPanel bottomPane) {
+		this.bottomPane = bottomPane;
+	}
+	
 
 }

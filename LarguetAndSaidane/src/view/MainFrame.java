@@ -25,6 +25,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	private ProfilDao profilDao;
 	private ArrayList<Employe> employes;
 	private EmployeDao employeDao;
+	private ArrayList<Profil> profiles;
 	private int currentEmployeIndex;
 	public MainFrame() {
 		super("Gestion Des Employes");
@@ -75,6 +76,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		tabs.getGestionEmpl().getPrevious().addActionListener(this);
 		tabs.getGestionEmpl().getModif().addActionListener(this);
 		tabs.getGestionEmpl().getSuprimer().addActionListener(this);
+		tabs.getList().getProfileSelector().addActionListener(this);
 		
 	}
 	public void initData() {
@@ -89,13 +91,26 @@ public class MainFrame extends JFrame implements ActionListener {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		tabs.getGestionEmpl().getDate().setText(sdf.format(employe.getDatnais()));
 		tabs.getGestionEmpl().getGender().setSelectedItem(employe.getGenre());
-		
-		
+
 	}
 	
 	public static void main(String[] args) {
 		JFrame myFrame = new MainFrame();
+	}
+	public void updateProfileFields() {
 		
+		
+		
+		
+		Employe employe = employes.get(currentEmployeIndex);
+		tabs.getGestionEmpl().getCinfield().setText(employe.getCin());
+		tabs.getGestionEmpl().getNom().setText(employe.getNom());
+		tabs.getGestionEmpl().getPrenom().setText(employe.getPrenom());
+		tabs.getGestionEmpl().getEmail().setText(employe.getEmail());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		tabs.getGestionEmpl().getDate().setText(sdf.format(employe.getDatnais()));
+		tabs.getGestionEmpl().getGender().setSelectedItem(employe.getGenre());
+		tabs.getGestionEmpl().getProfile().setSelectedItem(profilDao.selectProfileById(employe.getIdProfil()));
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -106,6 +121,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			tabs.getGestionProfil().getTopPanel().setBackground(color);
 			tabs.getGestionEmpl().getTopPane().setBackground(color);
 			tabs.getGestionEmpl().getBottomPane().setBackground(color);
+			tabs.getList().getTopPane().setBackground(color);
 			
 		}
 		else if(e.getSource() == menuBar.getBlueItem()) {
@@ -115,6 +131,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			tabs.getGestionProfil().getTopPanel().setBackground(color);
 			tabs.getGestionEmpl().getTopPane().setBackground(color);
 			tabs.getGestionEmpl().getBottomPane().setBackground(color);
+			tabs.getList().getTopPane().setBackground(color);
 		}
 		else if(e.getSource() == menuBar.getGestionEmployerItem()) {
 			tabs.setEnabledAt(1, false);
@@ -127,12 +144,16 @@ public class MainFrame extends JFrame implements ActionListener {
 			tabs.setEnabledAt(2,false);
 			tabs.setEnabledAt(3,false);
 			tabs.setSelectedIndex(1);
+			tabs.getGestionProfil().deleteAllRow();
+			tabs.getGestionProfil().getData(profilDao.selectOrderedProfiles());
 		}
 		else if (e.getSource() == menuBar.getGestion_Emp_ProfileItem()) {
 			tabs.setSelectedIndex(3);
 			tabs.setEnabledAt(1, false);
 			tabs.setEnabledAt(2,false);
 			tabs.setEnabledAt(3,true);
+			tabs.getList().deleteAllRow();
+			tabs.getList().getData(employeDao.selectEmployesByProfile(profilDao.getLibelleId((String) tabs.getList().getProfileSelector().getSelectedItem())));
 		}
 		else if(e.getSource() == menuBar.getQuitItem()) {
 			int secondResult = JOptionPane.showConfirmDialog(
@@ -146,9 +167,22 @@ public class MainFrame extends JFrame implements ActionListener {
 			}
 		}
 		else if (e.getSource() == menuBar.getCinItem()) {
-			String retour=JOptionPane.showInputDialog(null, "Saisissez cin SVP:");
-			System.out.print(retour);
-		}
+			String retour;
+			do {
+				retour=JOptionPane.showInputDialog(null, "Saisissez cin SVP:");
+				if(retour == null) {
+				break;
+			}
+			
+		}while(retour.equals(""));
+			if(retour!= null) {
+				if(employeDao.searchEmployeByCin(retour)==1) {
+					JOptionPane.showMessageDialog(null, "il y a correspondence Profil", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "il n'y a pas correspondence Profil", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			}
 		else if( e.getSource() == menuBar.getNomItem()){
 			String retour;
 			do {
@@ -157,6 +191,13 @@ public class MainFrame extends JFrame implements ActionListener {
 					break;
 				}
 			}while(retour.equals(""));
+			if(retour!= null) {
+				if(employeDao.searchEmployeByName(retour)==1) {
+					JOptionPane.showMessageDialog(null, "il y a correspondence Profil", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "il n'y a pas correspondence Profil", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
 			
 		}
 		else if(e.getSource()== tabs.getGestionEmpl().getAnnuler()) {
@@ -170,8 +211,19 @@ public class MainFrame extends JFrame implements ActionListener {
 			
 		}
 		else if (e.getSource() == tabs.getGestionProfil().getAjouter()) {
-			profilDao.insertProfil(new Profil(tabs.getGestionProfil().getLibelleField().getText()));
+			if(!tabs.getGestionProfil().getLibelleField().getText().equals("")) {
+				int result = profilDao.insertProfil(new Profil(tabs.getGestionProfil().getLibelleField().getText()));
+				if (result == 0) {
+					JOptionPane.showMessageDialog(null, "le libelle est deja existant", "Information", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			
 			tabs.getGestionProfil().getLibelleField().setText("");
+			tabs.getGestionProfil().deleteAllRow();
+			tabs.getGestionProfil().getData(profilDao.selectOrderedProfiles());
+			ArrayList<String> newProfiles = profilDao.select_profiles();
+			tabs.getGestionEmpl().setProfileSelection(newProfiles);
+			tabs.getList().setProfileSelection(newProfiles);
 			
 		}
 		else if (e.getSource()== tabs.getGestionProfil().getAnnuler()) {
@@ -187,23 +239,34 @@ public class MainFrame extends JFrame implements ActionListener {
 			int idprofil = profilDao.getLibelleId((String) tabs.getGestionEmpl().getProfilec().getSelectedItem());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			java.sql.Date sqlDate = null;
+			int ret= 0;
 			try {
 				Date datnaisDate = sdf.parse(datnaisString);
 				sqlDate = new java.sql.Date(datnaisDate.getTime());
+				Employe employe = new Employe( cin,  idprofil,  nom,  prenom,  sqlDate,  genre,  email);
+				ret = employeDao.insertEmploye(employe);
+				SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd");
+				tabs.getGestionEmpl().getCinfieldc().setText("");
+				tabs.getGestionEmpl().getNomc().setText("");
+				tabs.getGestionEmpl().getPrenomc().setText("");
+				tabs.getGestionEmpl().getEmailc().setText("");
+				tabs.getGestionEmpl().getDatec().setText(f.format(new Date()));
+				employes = employeDao.selectEmployes();
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
-				System.out.println("Helloworld");
-				
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "verifier les information SVP!", "Information", JOptionPane.INFORMATION_MESSAGE);
+					
 			}
-			Employe employe = new Employe( cin,  idprofil,  nom,  prenom,  sqlDate,  genre,  email);
-			employeDao.insertEmploye(employe);
-			SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd");
-			tabs.getGestionEmpl().getCinfieldc().setText("");
-			tabs.getGestionEmpl().getNomc().setText("");
-			tabs.getGestionEmpl().getPrenomc().setText("");
-			tabs.getGestionEmpl().getEmailc().setText("");
-			tabs.getGestionEmpl().getDatec().setText(f.format(new Date()));
+			if(ret ==0) {
+				JOptionPane.showMessageDialog(null, "verifier les information SVP!", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Employer est ajouter avec succees", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+			}
+			
+			
 			
 			
 		}
@@ -215,15 +278,8 @@ public class MainFrame extends JFrame implements ActionListener {
 				currentEmployeIndex++;
 			}
 			
-			Employe employe = employes.get(currentEmployeIndex);
-			tabs.getGestionEmpl().getCinfield().setText(employe.getCin());
-			tabs.getGestionEmpl().getNom().setText(employe.getNom());
-			tabs.getGestionEmpl().getPrenom().setText(employe.getPrenom());
-			tabs.getGestionEmpl().getEmail().setText(employe.getEmail());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			tabs.getGestionEmpl().getDate().setText(sdf.format(employe.getDatnais()));
-			tabs.getGestionEmpl().getGender().setSelectedItem(employe.getGenre());
-		}
+			updateProfileFields();
+			}
 		else if (e.getSource() == tabs.getGestionEmpl().getPrevious()) {
 			if(currentEmployeIndex == 0) {
 				currentEmployeIndex = employes.size()-1;
@@ -231,14 +287,7 @@ public class MainFrame extends JFrame implements ActionListener {
 			else {
 				currentEmployeIndex--;
 			}
-			Employe employe = employes.get(currentEmployeIndex);
-			tabs.getGestionEmpl().getCinfield().setText(employe.getCin());
-			tabs.getGestionEmpl().getNom().setText(employe.getNom());
-			tabs.getGestionEmpl().getPrenom().setText(employe.getPrenom());
-			tabs.getGestionEmpl().getEmail().setText(employe.getEmail());
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			tabs.getGestionEmpl().getDate().setText(sdf.format(employe.getDatnais()));
-			tabs.getGestionEmpl().getGender().setSelectedItem(employe.getGenre());
+			updateProfileFields();
 		}
 		else if (e.getSource() == tabs.getGestionEmpl().getModif()) {
 			String cin = tabs.getGestionEmpl().getCinfield().getText();
@@ -253,14 +302,17 @@ public class MainFrame extends JFrame implements ActionListener {
 			try {
 				Date datnaisDate = sdf.parse(datnaisString);
 				sqlDate = new java.sql.Date(datnaisDate.getTime());
+				Employe employe = new Employe( cin,  idprofil,  nom,  prenom,  sqlDate,  genre,  email);
+				employeDao.updateEmploye(employe);
+				employes = employeDao.selectEmployes();
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, "verifier les information a modifier", "Information", JOptionPane.INFORMATION_MESSAGE);
 				
 				
-				e1.printStackTrace();
+				
 			}
-			Employe employe = new Employe( cin,  idprofil,  nom,  prenom,  sqlDate,  genre,  email);
-			employeDao.updateEmploye(employe);
+			updateProfileFields();
+			
 		}
 		else if(e.getSource() == tabs.getGestionEmpl().getSuprimer()) {
 			String cin = tabs.getGestionEmpl().getCinfield().getText();
@@ -279,10 +331,20 @@ public class MainFrame extends JFrame implements ActionListener {
 				// TODO Auto-generated catch block
 				
 				
-				e1.printStackTrace();
+				
 			}
 			Employe employe = new Employe( cin,  idprofil,  nom,  prenom,  sqlDate,  genre,  email);
 			employeDao.deleteEmploye(employe);
+			employes = employeDao.selectEmployes();
+			if(currentEmployeIndex >= employes.size()-1) {
+				currentEmployeIndex = 0;
+			}
+			updateProfileFields();
+		}
+		else if(e.getSource()== tabs.getList().getProfileSelector()) {
+			tabs.getList().deleteAllRow();
+			tabs.getList().getData(employeDao.selectEmployesByProfile(profilDao.getLibelleId((String) tabs.getList().getProfileSelector().getSelectedItem())));
+		
 		}
 		
 	}
